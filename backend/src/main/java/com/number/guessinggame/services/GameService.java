@@ -115,12 +115,13 @@ public class GameService {
         }
     }
 
-    public boolean checkGameStatus (Set<Integer> answerSet, int[] playerAnswer) {
+    public Game checkGameStatus (String gameId) {
+        Game game = GameData.getInstance().getGames().get(gameId);
 
-        return false;
+        return game;
     }
 
-    public boolean checkGameHistory (Set<Integer> answerSet, int[] playerAnswer) {
+    public boolean checkGameHistory (String gameId) {
 
         return false;
     }

@@ -31,4 +31,11 @@ public class GameController {
         Guess playerGuess = gameService.playGame(id, req);
         return ResponseEntity.ok(playerGuess);
     }
+
+    @GetMapping("/game-status/{id}")
+    public ResponseEntity<Game> checkGameStatus(@PathVariable String id) {
+        log.info("Player Guess: {}");
+        Game game = gameService.checkGameStatus(id);
+        return ResponseEntity.ok(game);
+    }
 }
