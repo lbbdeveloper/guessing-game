@@ -2,24 +2,32 @@ package com.number.guessinggame.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.number.guessinggame.entity.Game;
+import com.number.guessinggame.entity.Guess;
 import com.number.guessinggame.entity.Player;
 import com.number.guessinggame.services.GameService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.logging.Logger;
 
 //@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/game")
 public class GameController {
     private GameService gameService;
 
-//    public GameController(GameService gameService) {this.gameService = gameService;}
     @PostMapping("/start")
-    public ResponseEntity<Game> start(@RequestBody Player player) {
-
+    public ResponseEntity<String> start(@RequestBody Player player) {
+        log.info("Game Started by: {}", player.getUsername());
         return ResponseEntity.ok(gameService.startGame(player));
+    }
+
+    @PostMapping("/play/{id}")
+    public ResponseEntity<String> playGame(@RequestBody Guess req, @PathVariable String id) {
+        log.info("Player Guess: {}", req);
+        Game game = gameService.playGame(id, req);
+        return ResponseEntity.ok(id);
     }
 }

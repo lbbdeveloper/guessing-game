@@ -8,23 +8,32 @@ import com.number.guessinggame.entity.Player;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class GameService {
 
-    public Game startGame(Player player) {
+    public String startGame(Player player) {
         Game game = new Game();
         game.setGameStatus("In Progress");
         game.setId(UUID.randomUUID().toString());
         game.setPlayer(player);
+        game.setTotalAttempts(10);
+        game.setAttemptsMade(0);
+        game.setScore(0);
+
+        //set placeholder answer
+        int[] answer = new int[]{1,2,3,4};
+        game.setAnswer(answer);
+
         GameData.getInstance().setGame(game);
-        return game;
+        return game.getId();
     }
 
-    public Game playGame(Game game, Guess playerInput) {
-
+    public Game playGame(String gameId, Guess playerInput) {
+        Game game = new Game();
         return game;
     }
 
