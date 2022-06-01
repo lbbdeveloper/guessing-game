@@ -12,11 +12,11 @@ public class Game {
     private Player player;
     private String gameStatus;
     private int totalAttemptsAllowed;
-    private int attemptsMade;
+    private int attemptsRemaining;
     private boolean winner;
     private ArrayList<Guess> history = new ArrayList<>();
-    private int[] answer = new int[4];
-    private Set<Integer> answerSet = new HashSet<>();
+//    private int[] answer = new int[4];
+//    private Set<Integer> answerSet = new HashSet<>();
     private int[] playerInput = new int[4];
     private int score;
 

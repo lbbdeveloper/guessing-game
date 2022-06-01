@@ -8,7 +8,4 @@ public class Feedback {
     private boolean correctNumAndLocation;
     private boolean winner;
 
-
-
-
 }
