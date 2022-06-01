@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 //@CrossOrigin("http://localhost:4200")
 @RestController
 @AllArgsConstructor
@@ -20,22 +22,29 @@ public class GameController {
     private GameService gameService;
 
     @PostMapping("/start")
-    public ResponseEntity<Game> start(@RequestBody Player player) {
+    public ResponseEntity<String> start(@RequestBody Player player) {
         log.info("Game Started by: {}", player.getUsername());
         return ResponseEntity.ok(gameService.startGame(player));
     }
 
     @PostMapping("/play/{id}")
     public ResponseEntity<Guess> playGame(@RequestBody Guess req, @PathVariable String id) {
-        log.info("Player Guess: {}", req);
+        log.info("Player Guess: {}", req.getPlayerAnswer());
         Guess playerGuess = gameService.playGame(id, req);
         return ResponseEntity.ok(playerGuess);
     }
 
     @GetMapping("/game-status/{id}")
     public ResponseEntity<Game> checkGameStatus(@PathVariable String id) {
-        log.info("Player Guess: {}");
         Game game = gameService.checkGameStatus(id);
+        log.info("Game Status: {}");
         return ResponseEntity.ok(game);
+    }
+
+    @GetMapping("/game-history/{id}")
+    public ResponseEntity<ArrayList<Guess>> checkGameHistory(@PathVariable String id) {
+        ArrayList<Guess> history = gameService.checkGameHistory(id);
+        log.info("Game history: {}", history);
+        return ResponseEntity.ok(history);
     }
 }

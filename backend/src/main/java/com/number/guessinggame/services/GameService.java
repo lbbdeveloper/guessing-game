@@ -13,7 +13,7 @@ import java.util.*;
 @AllArgsConstructor
 public class GameService {
 
-    public Game startGame(Player player) {
+    public String startGame(Player player) {
         Game game = new Game();
         Result gameResult = new Result();
         game.setGameStatus("In Progress");
@@ -48,8 +48,8 @@ public class GameService {
         gameResult.setAnswerSet(set);
 
         ResultData.getInstance().setResult(game.getId(), gameResult);
-//        return game.getId();
-        return game;
+        return game.getId();
+//        return game;
     }
 
     public Guess playGame(String gameId, Guess playerGuess) {
@@ -59,13 +59,14 @@ public class GameService {
         ArrayList<Guess> history = game.getHistory();
         int i = game.getAttemptsRemaining();
 
-        if (i > 0) {
+        if (i > 0 && !"Finished".equals(game.getGameStatus()) ) {
             game.setAttemptsRemaining(i - 1);
             boolean isWinner = checkAnswer(result, playerGuess);
             history.add(playerGuess);
 
             if (isWinner) {
                 game.setGameStatus("Finished");
+                game.setWinner(true);
             }
         } else {
             game.setGameStatus("Finished");
@@ -121,8 +122,10 @@ public class GameService {
         return game;
     }
 
-    public boolean checkGameHistory (String gameId) {
+    public ArrayList<Guess> checkGameHistory (String gameId) {
+        Game game = GameData.getInstance().getGames().get(gameId);
+        ArrayList<Guess> history = game.getHistory();
 
-        return false;
+        return history;
     }
 }
