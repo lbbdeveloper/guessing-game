@@ -49,7 +49,6 @@ public class GameService {
 
         ResultData.getInstance().setResult(game.getId(), gameResult);
         return game.getId();
-//        return game;
     }
 
     public Guess playGame(String gameId, Guess playerGuess) {
