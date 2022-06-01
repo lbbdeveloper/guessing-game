@@ -1,6 +1,7 @@
 package com.number.guessinggame.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.number.guessinggame.entity.Feedback;
 import com.number.guessinggame.entity.Game;
 import com.number.guessinggame.entity.Guess;
 import com.number.guessinggame.entity.Player;
@@ -25,9 +26,9 @@ public class GameController {
     }
 
     @PostMapping("/play/{id}")
-    public ResponseEntity<String> playGame(@RequestBody Guess req, @PathVariable String id) {
+    public ResponseEntity<Guess> playGame(@RequestBody Guess req, @PathVariable String id) {
         log.info("Player Guess: {}", req);
-        Game game = gameService.playGame(id, req);
-        return ResponseEntity.ok(id);
+        Guess playerGuess = gameService.playGame(id, req);
+        return ResponseEntity.ok(playerGuess);
     }
 }

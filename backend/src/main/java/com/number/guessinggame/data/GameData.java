@@ -3,13 +3,15 @@ package com.number.guessinggame.data;
 import com.number.guessinggame.entity.Game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameData {
-    private  static ArrayList<Game> games;
+    private  static Map<String, Game> games;
     private static GameData instance;
 
     private GameData() {
-        games = new ArrayList<>();
+        games = new HashMap<>();
     }
 
     public static synchronized GameData getInstance() {
@@ -19,11 +21,11 @@ public class GameData {
         return instance;
     }
 
-    public ArrayList<Game> getGames() {
+    public Map<String, Game> getGames() {
         return games;
     }
 
     public void setGame (Game game) {
-        games.add(game);
+        games.put(game.getId(), game);
     }
 }
