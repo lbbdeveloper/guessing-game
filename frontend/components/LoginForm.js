@@ -7,6 +7,7 @@ import { useGameContext } from '../context/gameContext';
 const LoginForm = () => {
     const router = useRouter()
     const [input, setInput] = useState({username: ""})
+    const [gameStarted, setGameSatrted] = useState(false)
     const {gameID, setGameID} = useGameContext()
   
     const handleChange = (e) => {
@@ -21,8 +22,9 @@ const LoginForm = () => {
         gameService.startGame(input)
         .then((res) => {
             setGameID(res.data.toString())
+            setGameSatrted(true)
         });
-        console.log(gameID)
+        // console.log(gameID)
 
         // router.push(`/game/${gameID}`)
       }
@@ -39,16 +41,31 @@ const LoginForm = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
+        <Paper elevation={2} >
+        {gameStarted ? 
+        <Box sx={{ margin: '2rem', padding: '2rem',  display: 'flex', flexDirection: 'column', gap: '2rem', width: '350px' }} >
+            <Typography  variant="h6" component="div" gutterBottom>
+                    Game Rules: 
+            </Typography>
+            <Divider />
+            <Typography  variant="p" component="div" gutterBottom>
+                You will play against the computer and guess a four-number combinations. You can make 10 attempts! 
+            </Typography>
+            <Button disabled={gameID == "" } variant="outlined" href={`/game/${gameID}`} >Start!</Button>
+        </Box> :
         <form autoComplete='off' onSubmit={handleSubmit}>
-        <Paper elevation={2} sx={{ margin: '2rem', padding: '2rem',  display: 'flex', flexDirection: 'column', gap: '2rem' }} >
-        <Typography  variant="h6" component="div" gutterBottom>
-            Welcome! Please let us know your name: 
-        </Typography>
-        <Divider />
-            <TextField id="outlined-basic" label="Name" variant="outlined" name="username" onChange={handleChange}/>
-            <Button disabled={input.username == "" } variant="outlined" type='submit' >Start Game</Button>
-        </Paper>  
+            <Box sx={{ margin: '2rem', padding: '2rem',  display: 'flex', flexDirection: 'column', gap: '2rem', width: '350px' }} >
+                <Typography  variant="h6" component="div" gutterBottom>
+                    Welcome! Please let us know your name: 
+                </Typography>
+                <Divider />
+                    <TextField id="outlined-basic" label="Name" variant="outlined" name="username" onChange={handleChange}/>
+                    <Button disabled={input.username == "" } variant="outlined" type='submit' >Submit</Button>
+
+            </Box>
         </form>
+        }
+        </Paper>  
     </Box>
   )
 }
