@@ -13,13 +13,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-//@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:3000")
 @RestController
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/game")
 public class GameController {
     private GameService gameService;
+
+    @GetMapping("/start")
+    public ResponseEntity<Feedback> test() {
+        log.info("test");
+        Feedback feedback = new Feedback();
+        return ResponseEntity.ok(feedback);
+    }
 
     @PostMapping("/start")
     public ResponseEntity<String> start(@RequestBody Player player) {
