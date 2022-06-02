@@ -5,8 +5,6 @@ import com.number.guessinggame.data.ResultData;
 import com.number.guessinggame.entity.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
@@ -17,7 +15,7 @@ public class GameService {
         Game game = new Game();
         Result gameResult = new Result();
         game.setGameStatus("In Progress");
-        game.setId(UUID.randomUUID().toString());
+        game.setId(IDGenerator());
         game.setPlayer(player);
         game.setTotalAttemptsAllowed(10);
         game.setAttemptsRemaining(10);
@@ -74,6 +72,36 @@ public class GameService {
         return playerGuess;
     }
 
+    public Game checkGameStatus (String gameId) {
+        Game game = GameData.getInstance().getGames().get(gameId);
+
+        return game;
+    }
+
+    public ArrayList<Guess> checkGameHistory (String gameId) {
+        Game game = GameData.getInstance().getGames().get(gameId);
+        ArrayList<Guess> history = game.getHistory();
+
+        return history;
+    }
+
+    //Helper Functions:
+    public String IDGenerator () {
+
+        Set<String> idSet = GameData.getInstance().getGames().keySet();
+        String id = "";
+        if (!idSet.isEmpty()){
+            do {
+                int idNum = (int)(Math.random() * 100000);
+                id = Integer.toString(idNum);
+            } while (idSet.contains(id));
+        } else {
+            int idNum = (int)(Math.random() * 100000);
+            id = Integer.toString(idNum);
+        }
+        return id;
+    }
+
     public Boolean checkAnswer (Result result, Guess playerGuess) {
 
         int[] answer = result.getAnswer();
@@ -84,18 +112,18 @@ public class GameService {
         //check result for feedback #1:
         boolean correctNum = checkNumberContain(answerSet, playerAnswer);
         feedback.setCorrectNum(correctNum);
-        
+
         //check result for feedback #2 & #3:
         checkWinner(answer, playerAnswer, feedback);
 
         return feedback.isWinner();
     }
-    
+
     public boolean checkNumberContain (Set<Integer> answerSet, int[] playerAnswer) {
         for (int ans : playerAnswer) {
             if (answerSet.contains(ans)) {
                 return true;
-            } 
+            }
         }
         return false;
     }
@@ -115,16 +143,4 @@ public class GameService {
         }
     }
 
-    public Game checkGameStatus (String gameId) {
-        Game game = GameData.getInstance().getGames().get(gameId);
-
-        return game;
-    }
-
-    public ArrayList<Guess> checkGameHistory (String gameId) {
-        Game game = GameData.getInstance().getGames().get(gameId);
-        ArrayList<Guess> history = game.getHistory();
-
-        return history;
-    }
 }

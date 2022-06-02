@@ -30,7 +30,7 @@ public class GameController {
 
     @PostMapping("/start")
     public ResponseEntity<String> start(@RequestBody Player player) {
-        log.info("Game Started by: {}", player.getUsername());
+        log.info("Game Started by: {}", player);
         return ResponseEntity.ok(gameService.startGame(player));
     }
 

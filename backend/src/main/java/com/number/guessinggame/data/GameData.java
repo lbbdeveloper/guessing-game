@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameData {
-    private  static Map<String, Game> games;
+    private static Map<String, Game> games;
     private static GameData instance;
 
     private GameData() {
@@ -21,8 +21,7 @@ public class GameData {
         return instance;
     }
 
-    public Map<String, Game> getGames() {
-        return games;
+    public Map<String, Game> getGames() {return games;
     }
 
     public void setGame (Game game) {
