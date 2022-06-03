@@ -11,6 +11,9 @@ export default function GamePlay() {
   const [feedback, setFeedback] = useState({})
   const [previousInput, setPreviousInput] = useState([0,0,0,0])
   const [finished, setFinished] = useState(false)
+  const [attemps, setAttemps] = useState(10)
+  const [history, setHistory] = useState([])
+
 
 
   const { query } = useRouter();
@@ -28,15 +31,16 @@ export default function GamePlay() {
     .then((res) => {
       setFeedback(res.data.feedback)
       setPreviousInput(res.data.playerAnswer)
-      console.log(res.data.feedback)
     });
   }
 
   useEffect(() => {
     gameService
-        .test()
+        .checkGameStatus(query.id)
         .then((res) => {
-        console.log(res.data)
+          console.log(res.data)
+          setAttemps(res.data.attemptsRemaining)
+          setHistory(res.data.history)
         })
         .catch((err) => console.error(err));
   }, []);
@@ -48,15 +52,21 @@ export default function GamePlay() {
           <Typography  variant="h6" component="div" >
                 Game History: 
           </Typography>
-          <Typography  variant="p" component="div" >
-                correct number: 
-          </Typography>
-          <Typography  variant="p" component="div" >
-                correct number and location: 
-          </Typography>
-          <Typography  variant="p" component="div" >
-                Winner: 
-          </Typography>
+          { history.map( (item, i) => (
+            <Box key={i}>
+              <Divider sx={{ margin: '16px 0' }} />
+             [  {item.playerAnswer.map( n => `${n},` ) }  ]
+             <Typography  variant="p" component="div" >
+                correct number: {item.feedback.correctNum.toString()}
+              </Typography>
+              <Typography  variant="p" component="div" >
+                    correct number and location: {item.feedback.correctNumAndLocation.toString()}
+              </Typography>
+              <Typography  variant="p" component="div" >
+                    Winner: {item.feedback.winner.toString()}
+              </Typography>
+            </Box>
+          ) ) }
         </Paper>
         <Paper elevation={2} >
           <form autoComplete='off' onSubmit={handleSubmit}>
@@ -111,7 +121,7 @@ export default function GamePlay() {
                 You have: 
           </Typography>
           <Typography  variant="h2" component="div" >
-                10
+                {attemps}
           </Typography>
           <Typography  variant="h6" component="div" gutterBottom>
                 attemps remaining 
