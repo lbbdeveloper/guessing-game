@@ -14,7 +14,11 @@ export default function Layout({children}) {
 
       <main>
         <Box sx={{ width: '100%', textAlign: 'center', padding: '2rem' }}>
-          {children}
+            <Typography variant="h4" component="div" gutterBottom>
+                Mastermind Game
+            </Typography>
+            <Divider />
+            {children}
         </Box>
       </main>
 

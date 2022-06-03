@@ -9,10 +9,6 @@ export default function Home() {
   
   return (
     <Layout >
-      <Typography variant="h2" component="div" gutterBottom>
-        Number Guessing Game
-      </Typography>
-      <Divider />
       <LoginForm />
     </Layout>
         

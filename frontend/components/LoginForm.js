@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { Box, Typography, Divider, TextField, Paper, Button } from '@mui/material';
 import * as gameService from "../services/gameService";
 import { useGameContext } from '../context/gameContext';
 
 const LoginForm = () => {
-    const router = useRouter()
     const [input, setInput] = useState({username: ""})
     const [gameStarted, setGameSatrted] = useState(false)
     const {gameID, setGameID} = useGameContext()
@@ -18,25 +16,12 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(input)
         gameService.startGame(input)
         .then((res) => {
             setGameID(res.data.toString())
             setGameSatrted(true)
         });
-        // console.log(gameID)
-
-        // router.push(`/game/${gameID}`)
       }
-
-    //   useEffect(() => {
-    //     gameService
-    //       .test()
-    //       .then((res) => {
-    //         console.log(res.data)
-    //       })
-    //       .catch((err) => console.error(err));
-    //     }, []);
 
 
   return (
