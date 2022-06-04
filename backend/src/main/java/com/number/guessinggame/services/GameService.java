@@ -5,13 +5,20 @@ import com.number.guessinggame.data.ResultData;
 import com.number.guessinggame.entity.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class GameService {
+    private static String APIBaseURL = "https://www.random.org/integers/?num=1&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 
-    public String startGame(Player player) {
+    public String startGame(Player player) throws IOException {
         Game game = new Game();
         Result gameResult = new Result();
         game.setGameStatus("In Progress");
@@ -22,27 +29,22 @@ public class GameService {
         game.setScore(0);
         GameData.getInstance().setGame(game);
 
-        //set placeholder answer
+        int[] answer = new int[4];
+        Set<Integer> set = new HashSet<>();
+        int i = 0;
+        int num;
+        while (i<4) {
+            do {
+                num = Integer.parseInt(getAPIres(APIBaseURL));
+            } while (set.contains(num));
+            set.add(num);
+            answer[i] = num;
+            i++;
+        }
 
-        //call api
-        // int num = ...api;
-        //Set<Integer> set = new Set<>();
-        //List<Integer> list = new ArrayList<>();
-        //int[] answer = new int[4];
-        //for (int i = 0 ; i < 4; i++) {
-        //while (i < 4) {
-        //if (set.contains(num) {
-        // continue;
-        // } else {
-        // answer[i] = num;
-        //set.add(num);
-        //i++;
-        //}
-
-        //}
-        int[] answer = new int[]{1,2,3,4};
+//        int[] answer1 = new int[]{1,2,3,4};
         gameResult.setAnswer(answer);
-        Set<Integer> set = new HashSet<>(Arrays.asList(1,2,3,4));
+//        Set<Integer> set = new HashSet<>(Arrays.asList(1,2,3,4));
         gameResult.setAnswerSet(set);
 
         ResultData.getInstance().setResult(game.getId(), gameResult);
@@ -85,6 +87,12 @@ public class GameService {
         return history;
     }
 
+    public Map<String, Result> checkGameResult (String gameId) {
+        Map<String, Result> results = ResultData.getInstance().getResults();
+
+        return results;
+    }
+
     //Helper Functions:
     public String IDGenerator () {
 
@@ -100,6 +108,28 @@ public class GameService {
             id = Integer.toString(idNum);
         }
         return id;
+    }
+
+    private static String getAPIres(String url) throws IOException {
+        URL urlObj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return response.toString();
+        } else {
+            System.out.println("GET request error");
+        }
+        return null;
     }
 
     public Boolean checkAnswer (Result result, Guess playerGuess) {
