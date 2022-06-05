@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, Divider, TextField, Paper, Button } from '@mui/material';
 import * as gameService from "../services/gameService";
-import { useGameContext } from '../context/gameContext';
 
 const LoginForm = () => {
     const [input, setInput] = useState({username: ""})
     const [gameStarted, setGameSatrted] = useState(false)
-    const {gameID, setGameID} = useGameContext()
+    const [gameID, setGameID] = useState("")
   
     const handleChange = (e) => {
         setInput({
@@ -23,6 +22,15 @@ const LoginForm = () => {
         });
       }
 
+//debug
+useEffect(() => {
+    console.log("test")
+
+    gameService.test()
+        .then((res) => {
+           console.log(res.data)
+        });
+  }, []);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from "next/router";
-import Head from 'next/head'
-import Image from 'next/image'
+import {useParams} from 'react-router-dom';
 import { Box, Paper, Button, Typography, TextField, Divider, List} from '@mui/material';
-import Layout from '../../components/Layout';
-import * as gameService from "../../services/gameService";
+import Layout from '../components/Layout';
+import * as gameService from "../services/gameService";
 
 export default function GamePlay() {
+  const params = useParams();
   const [input, setInput] = useState([0,0,0,0])
   const [feedback, setFeedback] = useState({})
   const [previousInput, setPreviousInput] = useState([0,0,0,0])
@@ -14,10 +13,6 @@ export default function GamePlay() {
   const [gameStatus, setGameStatus] = useState('')
   const [attemps, setAttemps] = useState(10)
   const [history, setHistory] = useState([])
-
-
-
-  const { query } = useRouter();
 
   const handleChange = (e) => {
     let newInput = [...input]
@@ -28,7 +23,7 @@ export default function GamePlay() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const obj = { playerAnswer: input }
-    gameService.playGame( query.id ,obj )
+    gameService.playGame( params.id ,obj )
     .then((res) => {
       setFeedback(res.data.feedback)
       setPreviousInput(res.data.playerAnswer)
@@ -37,7 +32,7 @@ export default function GamePlay() {
 
   useEffect(() => {
     gameService
-        .checkGameStatus(query.id)
+        .checkGameStatus(params.id)
         .then((res) => {
           console.log(res.data)
           setAttemps(res.data.attemptsRemaining)

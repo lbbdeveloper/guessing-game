@@ -1,9 +1,10 @@
 import axios from "axios"
 
+const BEURL = "http://localhost:8080"
 export function startGame(input) {
   const res = axios({
     method: 'post',
-    url: '/api/game/start',
+    url: `${BEURL}/game/start`,
     headers: {
       'Content-Type': 'application/json',
   },
@@ -13,13 +14,13 @@ export function startGame(input) {
 }
 
 export function test() {
-    return axios.get('/api/game/start');
+    return axios.get(`${BEURL}/game/start`);
   }
 
 export function playGame(id, input) {
     const res = axios({
       method: 'post',
-      url: `/api/game/play/${id}`,
+      url: `${BEURL}/game/play/${id}`,
       headers: {
         'Content-Type': 'application/json',
     },
@@ -29,5 +30,5 @@ export function playGame(id, input) {
 }
 
 export function checkGameStatus(id) {
-  return axios.get(`/api/game/game-status/${id}`);
+  return axios.get(`${BEURL}/game/game-status/${id}`);
 }
