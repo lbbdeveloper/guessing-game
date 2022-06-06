@@ -18,7 +18,7 @@ To run this application on your local machine please follow the steps below:
 `git clone https://github.com/lbbdeveloper/guessing-game.git`
 2. `cd guessing-game` to go into the project folder
 3. `cd backend` to go into the backend folder. This is a Java and Maven Project. 
-    - If you have IntelliJ or other type of Java IDEs installed. Click Maven install to install backend dependencies. 
+    - If you have IntelliJ or other types of Java IDEs installed. Click Maven install to install backend dependencies. 
     - Once installed, simply click run to run the backend server. 
 4. In another terminal, `cd frontend` to go into the frontend folder. This is a React and Javascript Project.  
     - `npm i` to install required dependencies
@@ -35,7 +35,7 @@ To run this application on your local machine please follow the steps below:
     - Feeback
 
 ### Data Storage: <br/>
-One of the next steps for this project is to implement an external database (see [Next Steps](#next-steps)). Currently, this application is storing data in two Maps. One for Game Data, one for Result Data. These two entities are saperated because frontend can access Game object during gameplay. But user should not be able to see the result until game is finished. Both Maps uses gameID as the key so that the 
+One of the next steps for this project is to implement an external database (see [Next Steps](#next-steps)). Currently, this application is storing data in two Maps. One for Game Data, one for Result Data. These two entities are separated because frontend can access the Game object during gameplay. But the user should not be able to see the result until the game is finished. Both Maps use gameID as the key so that they can easily be found.
 
 ## Backend Walkthrough
 Backend uses [Java version 11](https://www.java.com/en/), [Spring Boot](https://spring.io), [Maven](https://maven.apache.org/), and [Lombok](https://projectlombok.org/). 
@@ -61,7 +61,7 @@ Start the game and return gameID as String
 ```
 
 #### POST /game/play/{id}
-Take in an user's input and return Guess object with feeback. 
+Take in a user's input and return the Guess object with feedback. 
 - sample req.body: 
 ```json
 {
@@ -86,7 +86,7 @@ Take in an user's input and return Guess object with feeback.
 ```
 
 #### GET /game/game-status/{id}
-A GET request that returns current Game object which includes game history, total attemps remaining, ect. 
+A GET request that returns the current Game object which includes game history, total attempts remaining, etc. 
 - sample response:
 ```json
 {
@@ -169,12 +169,49 @@ Frontend uses [React](https://reactjs.org/), [axios](https://axios-http.com/docs
 ### UI and Backend Interaction
 1. Welcome Page shows a login form that ask for username:
 
-2. form is disabled until user input their name:
+2. Form is disabled until user input their name:
 
-3. After user submits their username, the page display a start  button that will direct the user to game play page. 
+3. After a user submits their username, the page display a start  button that will direct the user to the game play page. 
 
-4. 
+4. User will be able to input a four number array to guess
 
-5. 
+5. As user submit their guess, they can see feedback, game history as well as attempts remaining 
+
+6. If the user guesses the correct answer, they will see a winner screen
+
+7. If their attempts run out, they will see a failed screen
 
 ## Next Steps
+There are some of the potential future steps this application can take:
+
+1. Sort and rank user's performance based on attempts made:
+    - Since GameData stores each Game's information, which includes `username` and `attemptsRemaining`. We can sort Games based on `attemptsRemaining`. 
+    - First of all, we need to select games that successfully guessed all the numbers. This can be done by selecting Games with its winner variable set to `true` (we will call these games **Winner Games**).
+    - Then We can create an ArrayList to include all the **Winner Games** and sort them using `Collections.sort` and JAVA Comparator on attempsRemaining.
+    If there are  winner Games that have the same number of `attemptsRemaining`, we can sort them alphabetically.
+    - After that, we will print GameId or Player's username.
+    
+2. Multi-player mode:
+    - This can potentially be achieved by using **Websocket**. 
+    - [Spring](https://spring.io/guides/gs/messaging-stomp-websocket/) has a Websocket module we can potentially use. 
+    - Users can join the same session using a unique gameId. Users can take turns guessing the game. Whoever finished the game first is the winner. 
+
+3. Include difficulty level option:
+    - this can be achieved by giving the user an option to select different difficulty levels before the game starts. There can be multiple ways to set difficulty levels. For example:
+        - level 1: need to guess 4 numbers, each ranging from 0 - 7, within 10 attempts.
+        - level 2: need to guess 5 numbers, each ranging from 0 - 8, within 9 attempts.
+        - level 3: need to guess 6 numbers, each ranging from 0 - 9, within 8 attempts.
+    - We can easily achieve this by updating the size of answer array/set, the range for API answer generation, and attempts allowed in the current code.
+
+4. Give hint to users:
+    - Users can select to receive hints such as the following:
+        - hint 1: how many numbers the user has guessed correctly in this attempt. these numbers' location does not need to be correct. 
+        - hint 2: how many numbers the user has guessed correctly. these numbers' locations need to be correct.
+        - hint 3: remove a wrong number from number range, for example tell the user number 3 is not part of final answer, to reduce difficuity.  
+    - how to achieve hint functionalities:
+        - hint 1: return an int from `checkNumberContains` method from GameService class.
+        - hint 2: simply return `re` variable from `checkWinner` method in GameService class.
+        - hint 3: write a method in GameService class
+
+5. Create a timer to record how much time the user has spent on guessing.
+6. Create a score algorithm based on game difficulty level, time spent, and guess result to calculate a score for each user and publish the ranking in real-time.
