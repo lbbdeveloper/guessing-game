@@ -9,33 +9,40 @@ This is a full-stack web application with a [Java Spring Boot](https://spring.io
     - [Endpoints and API Contract](#endpoints-and-api-contract)
 - [Frontend Walkthrough](#frontend-walkthrough)
     - [UI and Backend Interaction](#ui-and-backend-interaction)
-- [Next Steps](#next-steps)
+- [Future Steps](#future-steps)
 
 ## How to Run This Application
 To run this application on your local machine please follow the steps below:
 
+0. JAVA JDK 11
 1. in your terminal enter: 
 `git clone https://github.com/lbbdeveloper/guessing-game.git`
 2. `cd guessing-game` to go into the project folder
 3. `cd backend` to go into the backend folder. This is a Java and Maven Project. 
     - If you have IntelliJ or other types of Java IDEs installed. Click Maven install to install backend dependencies. 
+
+        -  <img width="321" alt="Screen Shot 2022-06-06 at 10 19 28 AM" src="https://user-images.githubusercontent.com/96930550/172249184-87ed62e5-15b2-4f42-8d7f-0270bfdfdab9.png">
+
     - Once installed, simply click run to run the backend server. 
+        - <img width="541" alt="Screen Shot 2022-06-06 at 10 13 24 AM" src="https://user-images.githubusercontent.com/96930550/172249127-93204a65-f3bc-4483-9826-de76c3b037af.png">
+
 4. In another terminal, `cd frontend` to go into the frontend folder. This is a React and Javascript Project.  
     - `npm i` to install required dependencies
     - `npm run start` to run frontend application. It should automatically open the UI in your web browser. If not, go to http://localhost:3000
 
 ## Thought Process
 ### ERD:
+![Guessing Game drawio](https://user-images.githubusercontent.com/96930550/172250823-0957bcbc-1e2a-4596-b315-fb3f65ec8bdb.png)
 
 - Major Entities in this project:
     - Player
     - Game
     - Result
     - Guess
-    - Feeback
+    - Feedback
 
 ### Data Storage: <br/>
-One of the next steps for this project is to implement an external database (see [Next Steps](#next-steps)). Currently, this application is storing data in two Maps. One for Game Data, one for Result Data. These two entities are separated because frontend can access the Game object during gameplay. But the user should not be able to see the result until the game is finished. Both Maps use gameID as the key so that they can easily be found.
+One of the future steps for this project is to implement an external database (see [Future Steps](#future-steps)). Currently, this application is storing data in two Maps. One for Game Data, one for Result Data. These two entities are separated because frontend can access the Game object during gameplay. But the user should not be able to see the result until the game is finished. Both Maps use gameID as the key so that they can easily be found.
 
 ## Backend Walkthrough
 Backend uses [Java version 11](https://www.java.com/en/), [Spring Boot](https://spring.io), [Maven](https://maven.apache.org/), and [Lombok](https://projectlombok.org/). 
@@ -167,22 +174,29 @@ This is a debugging endpoint. Frontend is not connected to this endpoint. This i
 ## Frontend Walkthrough
 Frontend uses [React](https://reactjs.org/), [axios](https://axios-http.com/docs/intro), and [Material UI](https://mui.com/). 
 ### UI and Backend Interaction
-1. Welcome Page shows a login form that ask for username:
+1. Welcome Page shows a login form that asks for username:
+<img width="1526" alt="1" src="https://user-images.githubusercontent.com/96930550/172249250-069b6446-b325-412a-99f2-83702487fa65.png">
 
-2. Form is disabled until user input their name:
+2. Form is disabled until user inputs username:
+<img width="1526" alt="2" src="https://user-images.githubusercontent.com/96930550/172249271-0b27fb61-e68b-4232-bbeb-3fb3451f9be3.png">
 
-3. After a user submits their username, the page display a start  button that will direct the user to the game play page. 
+3. After a user submits username, the page displays a start button that will direct the user to the game play page. 
+<img width="1526" alt="3" src="https://user-images.githubusercontent.com/96930550/172249320-59dcce62-6f16-437b-9323-38e954dd8980.png">
 
 4. User will be able to input a four number array to guess
+<img width="1526" alt="4" src="https://user-images.githubusercontent.com/96930550/172249338-733f12d6-81e8-44a9-82db-5c4c68ff2f63.png">
 
-5. As user submit their guess, they can see feedback, game history as well as attempts remaining 
+5. As user submits guesses, they can see feedback, game history as well as attempts remaining 
+<img width="1526" alt="5" src="https://user-images.githubusercontent.com/96930550/172249358-85b1d9e5-5a86-47c3-9ffc-ecd50e79fbbf.png">
 
-6. If the user guesses the correct answer, they will see a winner screen
+6. If the user guesses the numbers correctly, they will see a winner screen
+<img width="1526" alt="Screen Shot 2022-06-06 at 3 01 48 PM" src="https://user-images.githubusercontent.com/96930550/172249422-6201a37b-b90f-4a1c-a976-ab99ea0310bd.png">
 
-7. If their attempts run out, they will see a failed screen
+7. If user's attempts run out, they will see a failed screen
+<img width="1526" alt="Screen Shot 2022-06-06 at 3 01 14 PM" src="https://user-images.githubusercontent.com/96930550/172249371-e38dbd3b-d2ae-45b1-86de-b4ec63446479.png">
 
-## Next Steps
-There are some of the potential future steps this application can take:
+## Future Steps
+There are some future steps this application can take:
 
 1. Sort and rank user's performance based on attempts made:
     - Since GameData stores each Game's information, which includes `username` and `attemptsRemaining`. We can sort Games based on `attemptsRemaining`. 
@@ -194,7 +208,7 @@ There are some of the potential future steps this application can take:
 2. Multi-player mode:
     - This can potentially be achieved by using **Websocket**. 
     - [Spring](https://spring.io/guides/gs/messaging-stomp-websocket/) has a Websocket module we can potentially use. 
-    - Users can join the same session using a unique gameId. Users can take turns guessing the game. Whoever finished the game first is the winner. 
+    - Users can join the same session using a unique gameId. Users can take turns guessing the game. Whoever finishes the game first is the winner. 
 
 3. Include difficulty level option:
     - this can be achieved by giving the user an option to select different difficulty levels before the game starts. There can be multiple ways to set difficulty levels. For example:
@@ -205,8 +219,8 @@ There are some of the potential future steps this application can take:
 
 4. Give hint to users:
     - Users can select to receive hints such as the following:
-        - hint 1: how many numbers the user has guessed correctly in this attempt. these numbers' location does not need to be correct. 
-        - hint 2: how many numbers the user has guessed correctly. these numbers' locations need to be correct.
+        - hint 1: how many numbers the user has guessed correctly in this attempt. These numbers' location does not need to be correct. 
+        - hint 2: how many numbers the user has guessed correctly. These numbers' locations need to be correct.
         - hint 3: remove a wrong number from number range, for example tell the user number 3 is not part of final answer, to reduce difficuity.  
     - how to achieve hint functionalities:
         - hint 1: return an int from `checkNumberContains` method from GameService class.
