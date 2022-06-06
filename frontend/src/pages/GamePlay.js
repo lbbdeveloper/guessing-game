@@ -14,12 +14,14 @@ export default function GamePlay() {
   const [attemps, setAttemps] = useState(10)
   const [history, setHistory] = useState([])
 
+  // watch input change
   const handleChange = (e) => {
     let newInput = [...input]
     newInput[e.target.name] = parseInt(e.target.value)
     setInput(newInput)
   }
   
+  // call gameService function, to get backend feedback
   const handleSubmit = (e) => {
     e.preventDefault()
     const obj = { playerAnswer: input }
@@ -30,6 +32,7 @@ export default function GamePlay() {
     });
   }
 
+  // update gameStatus when input is updated
   useEffect(() => {
     gameService
         .checkGameStatus(params.id)
@@ -43,16 +46,17 @@ export default function GamePlay() {
         .catch((err) => console.error(err));
   }, [previousInput]);
 
+  // show different view based on gameStatus value
   return (
     <Layout >
       { gameStatus != "Finished" ? 
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50vh', gap: '24px', justifyContent: 'space-around' }}>
         
-        <Paper elevation={2} sx={{ padding: '16px' }} >
+        <Paper elevation={2} sx={{ padding: '16px', minHeight: '300px', minWidth: '300px' }} >
         <List sx={{
             width: '100%',
-            maxWidth: 360,
+            maxWidth: 300,
             overflow: 'auto',
             maxHeight: 300,
           }}>
@@ -124,7 +128,7 @@ export default function GamePlay() {
             </Box>
             </form>
           </Paper>
-        <Paper elevation={2} sx={{ padding: '16px 32px' }} >
+        <Paper elevation={2} sx={{ padding: '16px', minHeight: '300px', minWidth: '300px'  }} >
             <Typography  variant="h6" component="div" gutterBottom>
                   You have: 
             </Typography>
@@ -138,7 +142,7 @@ export default function GamePlay() {
         </Box>
         <Paper elevation={2} >
           {Object.keys(feedback).length != 0 && 
-          <Box sx={{ padding: '16px' }} >
+          <Box sx={{ padding: '16px', margin: '16px' }} >
             <Typography  variant="h6" component="div" gutterBottom>
                     Feedback: 
             </Typography>

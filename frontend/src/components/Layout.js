@@ -1,5 +1,6 @@
 import { Box, Typography, Divider} from '@mui/material';
 
+// reuseable for pages
 export default function Layout({children}) {
   
   return (

@@ -20,7 +20,7 @@ const LoginForm = () => {
         })
       }
 
-
+// based on the value of gameStarted, showing two different views
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
         <Paper elevation={2} >

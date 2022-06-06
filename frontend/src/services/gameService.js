@@ -1,5 +1,6 @@
 import axios from "axios"
 
+// create game in backend and get gameID from backend
 const BEURL = "http://localhost:8080"
 export function startGame(input) {
   const res = axios({
@@ -13,6 +14,7 @@ export function startGame(input) {
   return res;
 }
 
+// call backend API for feedback
 export function playGame(id, input) {
     const res = axios({
       method: 'post',
