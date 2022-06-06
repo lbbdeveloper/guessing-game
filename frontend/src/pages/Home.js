@@ -4,7 +4,7 @@ import LoginForm from '../components/LoginForm';
 
 function Home() {
   return (
-    <Layout>
+    <Layout >
       <LoginForm />
     </Layout>
   );

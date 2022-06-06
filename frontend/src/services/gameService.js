@@ -13,10 +13,6 @@ export function startGame(input) {
   return res;
 }
 
-export function test() {
-    return axios.get(`${BEURL}/game/start`);
-  }
-
 export function playGame(id, input) {
     const res = axios({
       method: 'post',

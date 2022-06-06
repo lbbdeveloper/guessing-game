@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box, Typography, Divider, TextField, Paper, Button } from '@mui/material';
 import * as gameService from "../services/gameService";
 
@@ -8,47 +8,39 @@ const LoginForm = () => {
     const [gameID, setGameID] = useState("")
   
     const handleChange = (e) => {
-        setInput({
-            ...input,
-            [e.target.name]: e.target.value,})
+        setInput({username: e.target.value})
       }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         gameService.startGame(input)
         .then((res) => {
             setGameID(res.data.toString())
             setGameSatrted(true)
-        });
+        })
       }
 
-//debug
-useEffect(() => {
-    console.log("test")
-
-    gameService.test()
-        .then((res) => {
-           console.log(res.data)
-        });
-  }, []);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
         <Paper elevation={2} >
         {gameStarted ? 
-        <Box sx={{ margin: '2rem', padding: '2rem',  display: 'flex', flexDirection: 'column', gap: '2rem', width: '350px' }} >
-            <Typography  variant="h6" component="div" gutterBottom>
+        <Box sx={{ margin: '30px', padding: '30px',  display: 'flex', flexDirection: 'column', gap: '20px', width: '350px' }} >
+            <Typography  variant="h6" gutterBottom>
                     Game Rules: 
             </Typography>
             <Divider />
-            <Typography  variant="p" component="div" gutterBottom>
-                You will play against the computer and guess a four-number combinations. You can make 10 attempts! 
+            <Typography  variant="p">
+                You will play against the computer and guess a four-number combinations
+            </Typography>
+            <Typography  variant="p" gutterBottom>
+                The numbers will be four different integers between 0-7. You can make 10 attempts! 
             </Typography>
             <Button disabled={gameID == "" } variant="outlined" href={`/game/${gameID}`} >Start!</Button>
         </Box> :
         <form autoComplete='off' onSubmit={handleSubmit}>
-            <Box sx={{ margin: '2rem', padding: '2rem',  display: 'flex', flexDirection: 'column', gap: '2rem', width: '350px' }} >
-                <Typography  variant="h6" component="div" gutterBottom>
+            <Box sx={{ margin: '30px', padding: '30px',  display: 'flex', flexDirection: 'column', gap: '30px', width: '350px' }} >
+                <Typography  variant="h6" gutterBottom>
                     Welcome! Please let us know your name: 
                 </Typography>
                 <Divider />

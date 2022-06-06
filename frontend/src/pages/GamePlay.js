@@ -20,10 +20,10 @@ export default function GamePlay() {
     setInput(newInput)
   }
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const obj = { playerAnswer: input }
-    gameService.playGame( params.id ,obj )
+    gameService.playGame( params.id, obj )
     .then((res) => {
       setFeedback(res.data.feedback)
       setPreviousInput(res.data.playerAnswer)
@@ -49,18 +49,14 @@ export default function GamePlay() {
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '50vh', gap: '24px', justifyContent: 'space-around' }}>
         
-        <Paper elevation={2} sx={{ padding: '16px 32px' }} >
+        <Paper elevation={2} sx={{ padding: '16px' }} >
         <List sx={{
             width: '100%',
             maxWidth: 360,
-            bgcolor: 'background.paper',
-            position: 'relative',
             overflow: 'auto',
             maxHeight: 300,
-            '& ul': { padding: 0 },
-          }}
-          subheader={<li />}>
-            <Typography  variant="h6" component="div" >
+          }}>
+            <Typography  variant="h6"  >
                   Game History: 
             </Typography>
             { history ? history.map( (item, i) => (
@@ -82,9 +78,9 @@ export default function GamePlay() {
           </Paper>
         <Paper elevation={2} >
             <form autoComplete='off' onSubmit={handleSubmit}>
-            <Box sx={{ margin: '2rem', padding: '2rem',  display: 'flex', flexDirection: 'column', gap: '2rem', width: '350px' }} >
+            <Box sx={{ margin: '30px', padding: '30px',  display: 'flex', flexDirection: 'column', gap: '30px', width: '350px' }} >
                 <Typography  variant="h6" component="div" gutterBottom>
-                        Enter your answer: 
+                        Enter your answer: (Integers between 0-7)
                 </Typography>
                 <Box sx={{ display: 'flex', gap: '8px' }} >
                   <TextField
