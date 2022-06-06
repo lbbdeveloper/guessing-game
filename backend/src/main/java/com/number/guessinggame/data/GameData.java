@@ -2,12 +2,11 @@ package com.number.guessinggame.data;
 
 import com.number.guessinggame.entity.Game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameData {
-    private static Map<String, Game> games;
+    private static Map<String, Game> games ;
     private static GameData instance;
 
     private GameData() {

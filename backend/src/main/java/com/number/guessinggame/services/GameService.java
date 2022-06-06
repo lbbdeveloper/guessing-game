@@ -87,7 +87,7 @@ public class GameService {
         return history;
     }
 
-    public Map<String, Result> checkGameResult (String gameId) {
+    public Map<String, Result> checkGameResult() {
         Map<String, Result> results = ResultData.getInstance().getResults();
 
         return results;
