@@ -34,7 +34,7 @@ public class GameController {
         return ResponseEntity.ok(game);
     }
 
-
+    //debug function
     @GetMapping("/game-answer")
     public ResponseEntity<Map<String, Result>> checkGameAnswer() {
         Map<String, Result> results = gameService.checkGameResult();

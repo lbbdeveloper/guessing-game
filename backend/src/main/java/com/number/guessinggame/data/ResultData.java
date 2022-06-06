@@ -1,8 +1,6 @@
 package com.number.guessinggame.data;
 
-import com.number.guessinggame.entity.Game;
 import com.number.guessinggame.entity.Result;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,7 +1,6 @@
 package com.number.guessinggame.entity;
 
 import lombok.Data;
-
 import java.util.HashSet;
 import java.util.Set;
 
