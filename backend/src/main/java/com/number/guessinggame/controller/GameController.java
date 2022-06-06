@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 @CrossOrigin("http://localhost:3000")
@@ -36,7 +35,7 @@ public class GameController {
     }
 
 
-    @GetMapping("/game-answer/")
+    @GetMapping("/game-answer")
     public ResponseEntity<Map<String, Result>> checkGameAnswer() {
         Map<String, Result> results = gameService.checkGameResult();
         return ResponseEntity.ok(results);

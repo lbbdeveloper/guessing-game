@@ -6,24 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameData {
-    private static Map<String, Game> games ;
-    private static GameData instance;
+    private static Map<String, Game> games = new HashMap<>() ;
 
-    private GameData() {
-        games = new HashMap<>();
+
+    public static Map<String, Game> getGames() {
+        return games;
     }
 
-    public static synchronized GameData getInstance() {
-        if (instance == null) {
-            instance = new GameData();
-        }
-        return instance;
-    }
-
-    public Map<String, Game> getGames() {return games;
-    }
-
-    public void setGame (Game game) {
+    public static void setGames(Game game) {
         games.put(game.getId(), game);
     }
 }

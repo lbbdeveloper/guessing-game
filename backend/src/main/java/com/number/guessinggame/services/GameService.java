@@ -16,6 +16,7 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 public class GameService {
+
     private static String APIBaseURL = "https://www.random.org/integers/?num=1&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 
     public String startGame(Player player) throws IOException {
@@ -24,36 +25,41 @@ public class GameService {
         game.setGameStatus("In Progress");
         game.setId(IDGenerator());
         game.setPlayer(player);
-        game.setTotalAttemptsAllowed(10);
         game.setAttemptsRemaining(10);
-        game.setScore(0);
-        GameData.getInstance().setGame(game);
+        GameData.setGames(game);
+
+        //when not using API
+//        int[] answer = new int[] {1,2,3,4};
+//        gameResult.setAnswer(answer);
+//        Set<Integer> set1 = new HashSet<>(Arrays.asList(1,2,3,4));
+//        gameResult.setAnswerSet(set1);
+
 
         int[] answer = new int[4];
         Set<Integer> set = new HashSet<>();
         int i = 0;
         int num;
-        while (i<4) {
-            do {
-                num = Integer.parseInt(getAPIres(APIBaseURL));
-            } while (set.contains(num));
-            set.add(num);
-            answer[i] = num;
+        while (i < 4) {
+            num = Integer.parseInt(getAPIres(APIBaseURL));
+            if (set.contains(num)) {
+                continue;
+            } else {
+                set.add(num);
+                answer[i] = num;
+            }
             i++;
         }
-
-//        int[] answer1 = new int[]{1,2,3,4};
         gameResult.setAnswer(answer);
-//        Set<Integer> set = new HashSet<>(Arrays.asList(1,2,3,4));
         gameResult.setAnswerSet(set);
-
-        ResultData.getInstance().setResult(game.getId(), gameResult);
+        ResultData.setResult(game.getId(), gameResult);
         return game.getId();
+
+
     }
 
     public Guess playGame(String gameId, Guess playerGuess) {
-        Game game = GameData.getInstance().getGames().get(gameId);
-        Result result = ResultData.getInstance().getResults().get(gameId);
+        Game game = GameData.getGames().get(gameId);
+        Result result = ResultData.getResults().get(gameId);
 
         ArrayList<Guess> history = game.getHistory();
         int i = game.getAttemptsRemaining();
@@ -75,20 +81,13 @@ public class GameService {
     }
 
     public Game checkGameStatus (String gameId) {
-        Game game = GameData.getInstance().getGames().get(gameId);
+        Game game = GameData.getGames().get(gameId);
 
         return game;
     }
 
-    public ArrayList<Guess> checkGameHistory (String gameId) {
-        Game game = GameData.getInstance().getGames().get(gameId);
-        ArrayList<Guess> history = game.getHistory();
-
-        return history;
-    }
-
     public Map<String, Result> checkGameResult() {
-        Map<String, Result> results = ResultData.getInstance().getResults();
+        Map<String, Result> results = ResultData.getResults();
 
         return results;
     }
@@ -96,7 +95,7 @@ public class GameService {
     //Helper Functions:
     public String IDGenerator () {
 
-        Set<String> idSet = GameData.getInstance().getGames().keySet();
+        Set<String> idSet = GameData.getGames().keySet();
         String id = "";
         if (!idSet.isEmpty()){
             do {
@@ -132,24 +131,24 @@ public class GameService {
         return null;
     }
 
-    public Boolean checkAnswer (Result result, Guess playerGuess) {
-
+    private Boolean checkAnswer(Result result, Guess playerGuess) {
         int[] answer = result.getAnswer();
         Set<Integer> answerSet = result.getAnswerSet();
 
         Feedback feedback = playerGuess.getFeedback();
         int[] playerAnswer = playerGuess.getPlayerAnswer();
-        //check result for feedback #1:
-        boolean correctNum = checkNumberContain(answerSet, playerAnswer);
+        //1st check
+        boolean correctNum = checkNumberContains(answerSet, playerAnswer);
         feedback.setCorrectNum(correctNum);
-
-        //check result for feedback #2 & #3:
-        checkWinner(answer, playerAnswer, feedback);
-
-        return feedback.isWinner();
+        if (correctNum) {
+            checkWinner(answer, playerAnswer, feedback);
+            return feedback.isWinner();
+        } else {
+            return false;
+        }
     }
 
-    public boolean checkNumberContain (Set<Integer> answerSet, int[] playerAnswer) {
+    public boolean checkNumberContains (Set<Integer> answerSet, int[] playerAnswer) {
         for (int ans : playerAnswer) {
             if (answerSet.contains(ans)) {
                 return true;

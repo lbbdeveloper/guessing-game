@@ -7,26 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResultData {
-    private static Map<String, Result> results;
-    private static ResultData instance;
+    private static Map<String, Result> results = new HashMap<>();
 
-    private ResultData() {
-        results = new HashMap<>();
-    }
-
-    public static synchronized ResultData getInstance() {
-        if (instance == null) {
-            instance = new ResultData();
-        }
-        return instance;
-    }
-
-    public Map<String, Result> getResults() {
+    public static Map<String, Result> getResults() {
         return results;
     }
 
-    public void setResult(String id, Result result) {
-        result.setId(id);
+    public static void setResult(String id, Result result) {
         results.put(id, result);
     }
+
 }
